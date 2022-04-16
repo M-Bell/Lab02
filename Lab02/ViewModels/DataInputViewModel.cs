@@ -26,7 +26,7 @@ namespace Lab02.ViewModels
 
         public DataInputViewModel(NavigationViewModel navigation)
         {
-            _gotoData = new NavigateToDataCommand(navigation, _person);
+            _gotoData = new NavigateToDataCommand(navigation, _person, IsValid);
         }
 
         public string Name
@@ -53,7 +53,7 @@ namespace Lab02.ViewModels
             set { _person.Birthday.Date = value; }
         }
 
-        private bool CanExecute()
+        private bool IsValid()
         {
             if (_person.Birthday == null) return false;
             DateTime lowerLimit = new DateTime(DateTime.Now.Year - 135, DateTime.Now.Month, DateTime.Now.Day);
