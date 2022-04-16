@@ -1,6 +1,5 @@
 ﻿using Lab02.Models;
 using Lab02.Navigation;
-using Lab02.Services;
 using Lab02.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,16 +13,16 @@ namespace Lab02.Commands
     {
         private readonly NavigationViewModel _navigationViewModel;
         private readonly DataInputViewModel _dataInputViewModel;
-        private Person _person = new Person("", "", "", new DateModel());
+        private Person _person = new Person();
         private Func<bool> _canExecuteEvaluator;
 
-        public event EventHandler CanExecuteChanged
+        new public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        
+
         public override bool CanExecute(object parameter)
         {
             if (_canExecuteEvaluator == null)
@@ -43,7 +42,6 @@ namespace Lab02.Commands
             _person = person;
             _canExecuteEvaluator = canExecuteEvaluator;
             _dataInputViewModel = dataInputViewModel;
-
         }
 
         public override async void Execute(object parameter)

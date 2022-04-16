@@ -5,6 +5,7 @@ using Lab02.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -92,6 +93,8 @@ namespace Lab02.ViewModels
 
         private bool IsValid()
         {
+            InterfaceIsEnabled = false;
+
             if (_person.Birthday == null) return false;
             DateTime lowerLimit = new DateTime(DateTime.Now.Year - 135, DateTime.Now.Month, DateTime.Now.Day);
             if (_person.Birthday.Date.CompareTo(lowerLimit) < 0)
@@ -104,7 +107,7 @@ namespace Lab02.ViewModels
                 MessageBox.Show($"ERROR\nYou couldn't even be born");
                 return false;
             }
-
+            InterfaceIsEnabled = true;
             return true;
         }
     }

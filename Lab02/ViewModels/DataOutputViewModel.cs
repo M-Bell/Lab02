@@ -37,13 +37,12 @@ namespace Lab02.ViewModels
         {
             get
             {
-                if (_person.Birthday.Date.Day == DateTime.Now.Day
-                    && _person.Birthday.Date.Month == DateTime.Now.Month)
+                if (IsBirthday)
                     return "Congratulations!!! All Silpo discounts are for you today";
                 return "Just an ordinary day for unordinary you";
             }
         }
-
+        
         public string Name
         {
             get { return _person.Name; }
@@ -97,7 +96,11 @@ namespace Lab02.ViewModels
 
         public bool IsBirthday
         {
-            get { return DateTime.Now.Equals(_person.Birthday); }
+            get
+            {
+                return _person.Birthday.Date.Day == DateTime.Now.Day
+                  && _person.Birthday.Date.Month == DateTime.Now.Month;
+            }
         }
         #endregion
     }
