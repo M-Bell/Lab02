@@ -65,6 +65,14 @@ namespace Lab02.Models
             Birthday = birthday;
         }
 
+        public Person()
+        {
+            Name = "";
+            Surname = "";
+            Email = "";
+            Birthday = new DateModel();
+        }
+
         #endregion
 
     }

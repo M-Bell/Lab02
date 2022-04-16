@@ -5,6 +5,7 @@ using Lab02.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,9 +13,10 @@ namespace Lab02.ViewModels
 {
     public class DataInputViewModel : ViewModelBase
     {
-        private Person _person = new Person("", "", "", new DateModel());
-
+        private Person _person = new();
+        private bool _interfaceIsEnabled = true;
         private ICommand _gotoData;
+
         public ICommand GotoData
         {
             get
@@ -23,28 +25,63 @@ namespace Lab02.ViewModels
             }
         }
 
+        public bool IsEnabled
+        {
+            get
+            {
+                return !String.IsNullOrWhiteSpace(Name) &&
+                    !String.IsNullOrWhiteSpace(Surname) &&
+                    !String.IsNullOrWhiteSpace(Email);
+            }
+        }
+
+        public bool InterfaceIsEnabled
+        {
+            get
+            {
+                return _interfaceIsEnabled;
+            }
+            set
+            {
+                _interfaceIsEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public DataInputViewModel(NavigationViewModel navigation)
         {
-            _gotoData = new NavigateToDataCommand(navigation, _person, IsValid);
+            _gotoData = new NavigateToDataCommand(navigation, _person, IsValid, this);
         }
 
         public string Name
         {
             get { return _person.Name; }
-            set { _person.Name = value; }
+            set
+            {
+                _person.Name = value;
+                OnPropertyChanged(nameof(IsEnabled));
+            }
         }
 
         public string Surname
         {
             get { return _person.Surname; }
-            set { _person.Surname = value; }
+            set
+            {
+                _person.Surname = value;
+                OnPropertyChanged(nameof(IsEnabled));
+            }
         }
 
         public string Email
         {
             get { return _person.Email; }
-            set { _person.Email = value; }
+            set
+            {
+                _person.Email = value;
+                OnPropertyChanged(nameof(IsEnabled));
+            }
         }
 
         public DateTime Date
@@ -67,6 +104,7 @@ namespace Lab02.ViewModels
                 MessageBox.Show($"ERROR\nYou couldn't even be born");
                 return false;
             }
+
             return true;
         }
     }

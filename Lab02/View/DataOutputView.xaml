@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewmodels="clr-namespace:Lab02.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DataInputViewModel}"
-             mc:Ignorable="d"
-       
-     Height="300" Width="400">
+        mc:Ignorable="d"
+        IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        Height="300" Width="500" >
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -52,7 +52,7 @@
         <TextBlock Name="tbIsBirthday" Grid.Column="2" Grid.Row="9" Margin="10,0,0,0" Text="{Binding IsBirthday}"/>
         <TextBlock Name="tbGreeting" Grid.Column="2" Grid.Row="10" Margin="10,0,0,0" Text="{Binding Greeting}"/>
 
-        <Button Grid.Column="1" Grid.Row="11" Content="Return" Grid.ColumnSpan="2" Margin="120, 7" Command="{Binding GotoHome}"/>
+        <Button Grid.Column="1" Grid.Row="11" Content="Return" Grid.ColumnSpan="2" Margin="120, 15" Command="{Binding GotoHome}"/>
 
     </Grid>
 

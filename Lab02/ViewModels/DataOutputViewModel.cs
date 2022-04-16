@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Lab02.ViewModels
@@ -20,6 +22,7 @@ namespace Lab02.ViewModels
 
         public DataOutputViewModel(NavigationViewModel navigation, Person person)
         {
+            Thread.Sleep(3000);
             GotoHome = new NavigateHomeCommand(navigation);
             _person = person;
         }

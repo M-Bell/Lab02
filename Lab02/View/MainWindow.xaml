@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Lab02.View"
         xmlns:viewmodels="clr-namespace:Lab02.ViewModels"
-        Title="MainWindow" Height="300" Width="400">
+        Title="MainWindow" Height="330" Width="500">
 
 
     <ContentControl Content="{Binding CurrentViewModel}" IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">

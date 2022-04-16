@@ -9,9 +9,23 @@ namespace Lab02.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private bool _isEnabled = true;
         private readonly NavigationViewModel _navigationViewModel;
 
         public ViewModelBase CurrentViewModel => _navigationViewModel.CurrentViewModel;
+
+        public bool IsEnabled
+        {
+            get
+            {
+                return _isEnabled;
+            }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainViewModel(NavigationViewModel navigation)
         {

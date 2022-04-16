@@ -5,6 +5,7 @@ using Lab02.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Lab02.Commands
@@ -12,6 +13,7 @@ namespace Lab02.Commands
     public class NavigateToDataCommand : CommandBase
     {
         private readonly NavigationViewModel _navigationViewModel;
+        private readonly DataInputViewModel _dataInputViewModel;
         private Person _person = new Person("", "", "", new DateModel());
         private Func<bool> _canExecuteEvaluator;
 
@@ -35,16 +37,21 @@ namespace Lab02.Commands
             }
         }
 
-        internal NavigateToDataCommand(NavigationViewModel navigationViewModel, Person person, Func<bool> canExecuteEvaluator)
+        internal NavigateToDataCommand(NavigationViewModel navigationViewModel, Person person, Func<bool> canExecuteEvaluator, DataInputViewModel dataInputViewModel)
         {
             _navigationViewModel = navigationViewModel;
             _person = person;
             _canExecuteEvaluator = canExecuteEvaluator;
+            _dataInputViewModel = dataInputViewModel;
+
         }
 
-        public override void Execute(object parameter)
+        public override async void Execute(object parameter)
         {
-            _navigationViewModel.CurrentViewModel = new DataOutputViewModel(_navigationViewModel, _person);
+            _dataInputViewModel.InterfaceIsEnabled = false;
+            _navigationViewModel.CurrentViewModel = await Task.Run(() => new DataOutputViewModel(_navigationViewModel, _person));
+
+
         }
     }
 }
