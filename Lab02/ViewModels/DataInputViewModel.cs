@@ -100,11 +100,13 @@ namespace Lab02.ViewModels
             if (_person.Birthday.Date.CompareTo(lowerLimit) < 0)
             {
                 MessageBox.Show($"ERROR\nAren't you too old for this...?");
+                InterfaceIsEnabled = true;
                 return false;
             }
             else if (DateTime.Now.CompareTo(_person.Birthday.Date) < 0)
             {
                 MessageBox.Show($"ERROR\nYou couldn't even be born");
+                InterfaceIsEnabled = true;
                 return false;
             }
             InterfaceIsEnabled = true;
