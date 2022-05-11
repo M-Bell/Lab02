@@ -1,12 +1,7 @@
-﻿
-using Lab02.Commands;
+﻿using Lab02.Commands;
 using Lab02.Models;
 using Lab02.Navigation;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,7 +9,11 @@ namespace Lab02.ViewModels
 {
     public class DataInputViewModel : ViewModelBase
     {
-        private Person _person = new();
+        private Person _person;
+        private string _name = "";
+        private string _surname = "";
+        private string _email = "example@mail.com";
+        private DateModel _birthday = new();
         private bool _interfaceIsEnabled = true;
         private ICommand _gotoData;
 
@@ -52,64 +51,65 @@ namespace Lab02.ViewModels
 
         public DataInputViewModel(NavigationViewModel navigation)
         {
+            _person = new Person(_name, _surname, _email, _birthday);
             _gotoData = new NavigateToDataCommand(navigation, _person, IsValid, this);
         }
 
         public string Name
         {
-            get { return _person.Name; }
+            get { return _name; }
             set
             {
-                _person.Name = value;
+                _name = value;
                 OnPropertyChanged(nameof(IsEnabled));
             }
         }
 
         public string Surname
         {
-            get { return _person.Surname; }
+            get { return _surname; }
             set
             {
-                _person.Surname = value;
+                _surname = value;
                 OnPropertyChanged(nameof(IsEnabled));
             }
         }
 
         public string Email
         {
-            get { return _person.Email; }
+            get { return _email; }
             set
             {
-                _person.Email = value;
+                _email = value;
                 OnPropertyChanged(nameof(IsEnabled));
             }
         }
 
         public DateTime Date
         {
-            get { return _person.Birthday.Date; }
-            set { _person.Birthday.Date = value; }
+            get { return _birthday.Date; }
+            set { _birthday.Date = value; }
         }
 
         private bool IsValid()
         {
             InterfaceIsEnabled = false;
-
-            if (_person.Birthday == null) return false;
-            DateTime lowerLimit = new DateTime(DateTime.Now.Year - 135, DateTime.Now.Month, DateTime.Now.Day);
-            if (_person.Birthday.Date.CompareTo(lowerLimit) < 0)
+            try
             {
-                MessageBox.Show($"ERROR\nAren't you too old for this...?");
-                InterfaceIsEnabled = true;
+                _person.Name = _name;
+                _person.Surname = _surname;
+                _person.Birthday = _birthday;
+                _person.Email = _email;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
                 return false;
             }
-            else if (DateTime.Now.CompareTo(_person.Birthday.Date) < 0)
+            finally
             {
-                MessageBox.Show($"ERROR\nYou couldn't even be born");
                 InterfaceIsEnabled = true;
-                return false;
             }
-            InterfaceIsEnabled = true;
             return true;
         }
     }

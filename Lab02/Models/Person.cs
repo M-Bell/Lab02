@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Lab02.Exceptions;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Lab02.Models
@@ -14,6 +17,10 @@ namespace Lab02.Models
         private string _surname;
         private string _email;
         private DateModel _birthday;
+        private static Regex emailRegex = new Regex(@"^[\w]+@[\w]+\.[\w]+$");
+        private static DateTime lowerLimit =
+            new DateTime(DateTime.Now.Year - 135, DateTime.Now.Month, DateTime.Now.Day);
+
         #endregion
 
         #region properties
@@ -32,13 +39,37 @@ namespace Lab02.Models
         public string Email
         {
             get { return _email; }
-            set { _email = value; }
+            set
+            {
+                if (emailRegex.IsMatch(value))
+                {
+                    _email = value;
+                }
+                else
+                {
+                    throw new InvalidEmailException($"ERROR\nInvalid email...");
+                }
+            }
         }
 
         public DateModel Birthday
         {
             get { return _birthday; }
-            set { _birthday = value; }
+            set
+            {
+                if (value.Date.CompareTo(lowerLimit) < 0)
+                {
+                    throw new InvalidEmailException($"ERROR\nAren't you too old for this?");
+                }
+                else if (DateTime.Now.CompareTo(value.Date) < 0)
+                {
+                    throw new InvalidEmailException($"ERROR\nYou couldn't even be born");
+                }
+                else
+                {
+                    _birthday = value;
+                }
+            }
         }
         #endregion
 
@@ -56,6 +87,7 @@ namespace Lab02.Models
             Name = name;
             Surname = surname;
             Email = email;
+            Birthday = new DateModel();
         }
 
         public Person(string name, string surname, DateModel birthday)
@@ -69,7 +101,7 @@ namespace Lab02.Models
         {
             Name = "";
             Surname = "";
-            Email = "";
+            Email = "example@mail.com";
             Birthday = new DateModel();
         }
 
